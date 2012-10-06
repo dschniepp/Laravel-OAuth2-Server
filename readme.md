@@ -5,6 +5,8 @@
 ### Aritsan
 
 	php artisan bundle:install oauth2-server
+	
+	php artisan migrate bundle
 
 ### Bundle Registration
 
