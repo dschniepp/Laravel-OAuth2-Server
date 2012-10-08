@@ -1,4 +1,4 @@
-# Laravel OAuht2 Server
+# Laravel OAuth2 Server
 
 ## Installation
 
