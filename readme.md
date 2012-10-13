@@ -23,7 +23,7 @@ Add the following to your **application/bundles.php** file:
 	$oauth_strg = new OAuth2StorageLaravel();
 	$oauth_strg->addClient($client_id, $client_secret, $redirect_uri);
 
->You can create a route in routes.php to create it
+>You can create a route in routes.php to add client
 
 ## Example
 
