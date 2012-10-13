@@ -15,7 +15,7 @@ Add the following to your **application/bundles.php** file:
 	'oauth2-server' => array('auto' => true),
 	
 ### Add a client
-	
+
 	$client_id = '123'; 					// min-length is 3 chars!
 	$client_secret = 'test';
 	$redirect_uri = 'http://laravel.com';
@@ -23,9 +23,12 @@ Add the following to your **application/bundles.php** file:
 	$oauth_strg = new OAuth2StorageLaravel();
 	$oauth_strg->addClient($client_id, $client_secret, $redirect_uri);
 
+>You can create a route in routes.php to create it
+
 ## Example
 
 ### Adding an OAuth2-Filter
+application/routes.php
 
 	Route::filter('oauth2', function()
 	{
@@ -41,6 +44,8 @@ Add the following to your **application/bundles.php** file:
 With that filter you can protect your routes via oauth
 
 ### OAuth2 Controller
+
+application/controllers/oauth_controller.php
 
 	<?php
 	class OAuth_Controller extends Base_Controller
@@ -104,6 +109,8 @@ With that filter you can protect your routes via oauth
 	}
 
 ### Authorize View
+
+application/views/oauth.authorize.php
 
 	<!doctype html>
 	<html lang="en">
