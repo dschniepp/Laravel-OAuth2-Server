@@ -1,6 +1,6 @@
 <?php
 
-class Oauth2Server_Access_Tokens {
+class Oauth2_Server_Access_Tokens {
 
 	/**
 	 * Make changes to the database.

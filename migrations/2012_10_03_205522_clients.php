@@ -1,6 +1,6 @@
 <?php
 
-class Oauth2Server_Clients {
+class Oauth2_Server_Clients {
 
 	/**
 	 * Make changes to the database.
