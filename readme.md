@@ -14,7 +14,7 @@ Add the following to your **application/bundles.php** file:
 	
 ### Aritsan 2	
 	
-	php artisan migrate bundle
+	php artisan migrate oauth2-server
 	
 ### Add a client
 
