@@ -52,6 +52,7 @@ class OAuth2AuthenticateException extends \OAuth2Server\Libraries\OAuth2ServerEx
 	 * @ingroup oauth2_section_5
 	 */
 	protected function sendHeaders() {
+		header('Content-Type: application/json');
 		header($this->header);
 	}
 }
