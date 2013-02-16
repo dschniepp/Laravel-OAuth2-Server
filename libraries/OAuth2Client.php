@@ -9,17 +9,17 @@
  * @sa <a href="https://github.com/facebook/php-sdk">Facebook PHP SDK</a>.
  */
 abstract class OAuth2Client {
-	
+
 	/**
 	 * The default Cache Lifetime (in seconds).
 	 */
 	const DEFAULT_EXPIRES_IN = 3600;
-	
+
 	/**
 	 * The default Base domain for the Cookie.
 	 */
 	const DEFAULT_BASE_DOMAIN = '';
-	
+
 	/**
 	 * Array of persistent variables stored.
 	 */
@@ -63,7 +63,7 @@ abstract class OAuth2Client {
 	// to implement all of them, which is too much work.
 	//
 	// So they're just stubs. Override the ones you need.
-	
+
 
 	/**
 	 * Initialize a Drupal OAuth2.0 Application.
@@ -87,7 +87,7 @@ abstract class OAuth2Client {
 		// We must set base_uri first.
 		$this->setVariable('base_uri', $config['base_uri']);
 		unset($config['base_uri']);
-		
+
 		// Use predefined OAuth2.0 params, or get it from $_REQUEST.
 		foreach ( array('code', 'username', 'password') as $name ) {
 			if (isset($config[$name])) {
@@ -97,7 +97,7 @@ abstract class OAuth2Client {
 			}
 			unset($config[$name]);
 		}
-		
+
 		// Endpoint URIs.
 		foreach ( array('authorize_uri', 'access_token_uri', 'services_uri') as $name ) {
 			if (isset($config[$name]))
@@ -108,7 +108,7 @@ abstract class OAuth2Client {
 				}
 			unset($config[$name]);
 		}
-		
+
 		// Other else configurations.
 		foreach ( $config as $name => $value ) {
 			$this->setVariable($name, $value);
@@ -147,7 +147,7 @@ abstract class OAuth2Client {
 	 */
 	protected function getSessionObject($access_token = NULL) {
 		$session = NULL;
-		
+
 		// Try generate local version of session cookie.
 		if (!empty($access_token) && isset($access_token['access_token'])) {
 			$session['access_token'] = $access_token['access_token'];
@@ -156,17 +156,17 @@ abstract class OAuth2Client {
 			$session['refresh_token'] = isset($access_token['refresh_token']) ? $access_token['refresh_token'] : '';
 			$session['scope'] = isset($access_token['scope']) ? $access_token['scope'] : '';
 			$session['secret'] = md5(base64_encode(pack('N6', mt_rand(), mt_rand(), mt_rand(), mt_rand(), mt_rand(), uniqid())));
-			
+
 			// Provide our own signature.
 			$sig = self::generateSignature($session, $this->getVariable('client_secret'));
 			$session['sig'] = $sig;
 		}
-		
+
 		// Try loading session from $_REQUEST.
 		if (!$session && isset($_REQUEST['session'])) {
 			$session = json_decode(get_magic_quotes_gpc() ? stripslashes($_REQUEST['session']) : $_REQUEST['session'], TRUE);
 		}
-		
+
 		return $session;
 	}
 
@@ -200,16 +200,16 @@ abstract class OAuth2Client {
 			$params = $method;
 			$method = 'GET';
 		}
-		
+
 		// json_encode all params values that are not strings.
 		foreach ( $params as $key => $value ) {
 			if (!is_string($value)) {
 				$params[$key] = json_encode($value);
 			}
 		}
-		
+
 		$result = json_decode($this->makeOAuth2Request($this->getUri($path), $method, $params), TRUE);
-		
+
 		// Results are returned, errors are thrown.
 		if (is_array($result) && isset($result['error'])) {
 			$e = new OAuth2Exception($result);
@@ -224,9 +224,9 @@ abstract class OAuth2Client {
 		}
 		return $result;
 	}
-	
+
 	// End stuff that should get overridden.
-	
+
 
 	/**
 	 * Default options for cURL.
@@ -277,25 +277,25 @@ abstract class OAuth2Client {
 		if (!$this->getVariable('_session_loaded')) {
 			$session = NULL;
 			$write_cookie = TRUE;
-			
+
 			// Try obtain login session by custom method.
 			$session = $this->getSessionObject(NULL);
 			$session = $this->validateSessionObject($session);
-			
+
 			// grant_type == authorization_code.
 			if (!$session && $this->getVariable('code')) {
 				$access_token = $this->getAccessTokenFromAuthorizationCode($this->getVariable('code'));
 				$session = $this->getSessionObject($access_token);
 				$session = $this->validateSessionObject($session);
 			}
-			
+
 			// grant_type == password.
 			if (!$session && $this->getVariable('username') && $this->getVariable('password')) {
 				$access_token = $this->getAccessTokenFromPassword($this->getVariable('username'), $this->getVariable('password'));
 				$session = $this->getSessionObject($access_token);
 				$session = $this->validateSessionObject($session);
 			}
-			
+
 			// Try loading session from cookie if necessary.
 			if (!$session && $this->getVariable('cookie_support')) {
 				$cookie_name = $this->getSessionCookieName();
@@ -307,10 +307,10 @@ abstract class OAuth2Client {
 					$write_cookie = empty($session);
 				}
 			}
-			
+
 			$this->setSession($session, $write_cookie);
 		}
-		
+
 		return $this->getVariable('_session');
 	}
 
@@ -440,7 +440,7 @@ abstract class OAuth2Client {
 	protected function makeRequest($path, $method = 'GET', $params = array(), $ch = NULL) {
 		if (!$ch)
 			$ch = curl_init();
-		
+
 		$opts = self::$CURL_OPTS;
 		if ($params) {
 			switch ($method) {
@@ -457,7 +457,7 @@ abstract class OAuth2Client {
 			}
 		}
 		$opts[CURLOPT_URL] = $path;
-		
+
 		// Disable the 'Expect: 100-continue' behaviour. This causes CURL to wait
 		// for 2 seconds if the server does not support this header.
 		if (isset($opts[CURLOPT_HTTPHEADER])) {
@@ -467,46 +467,46 @@ abstract class OAuth2Client {
 		} else {
 			$opts[CURLOPT_HTTPHEADER] = array('Expect:');
 		}
-		
+
 		curl_setopt_array($ch, $opts);
 		$result = curl_exec($ch);
-		
+
 		if (curl_errno($ch) == 60) { // CURLE_SSL_CACERT
 			error_log('Invalid or no certificate authority found, using bundled information');
 			curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '/fb_ca_chain_bundle.crt');
 			$result = curl_exec($ch);
 		}
-		
+
 		if ($result === FALSE) {
 			$e = new OAuth2Exception(array('code' => curl_errno($ch), 'message' => curl_error($ch)));
 			curl_close($ch);
 			throw $e;
 		}
 		curl_close($ch);
-		
+
 		// Split the HTTP response into header and body.
 		list($headers, $body) = explode("\r\n\r\n", $result);
 		$headers = explode("\r\n", $headers);
-		
+
 		// We catch HTTP/1.1 4xx or HTTP/1.1 5xx error response.
 		if (strpos($headers[0], 'HTTP/1.1 4') !== FALSE || strpos($headers[0], 'HTTP/1.1 5') !== FALSE) {
 			$result = array('code' => 0, 'message' => '');
-			
+
 			if (preg_match('/^HTTP\/1.1 ([0-9]{3,3}) (.*)$/', $headers[0], $matches)) {
 				$result['code'] = $matches[1];
 				$result['message'] = $matches[2];
 			}
-			
+
 			// In case retrun with WWW-Authenticate replace the description.
 			foreach ( $headers as $header ) {
 				if (preg_match("/^WWW-Authenticate:.*error='(.*)'/", $header, $matches)) {
 					$result['error'] = $matches[1];
 				}
 			}
-			
+
 			return json_encode($result);
 		}
-		
+
 		return $body;
 	}
 
@@ -532,7 +532,7 @@ abstract class OAuth2Client {
 	protected function setCookieFromSession($session = NULL) {
 		if (!$this->getVariable('cookie_support'))
 			return;
-		
+
 		$cookie_name = $this->getSessionCookieName();
 		$value = 'deleted';
 		$expires = time() - 3600;
@@ -542,15 +542,15 @@ abstract class OAuth2Client {
 			$base_domain = isset($session['base_domain']) ? $session['base_domain'] : $base_domain;
 			$expires = isset($session['expires']) ? $session['expires'] : time() + $this->getVariable('expires_in', self::DEFAULT_EXPIRES_IN);
 		}
-		
+
 		// Prepend dot if a domain is found.
 		if ($base_domain)
 			$base_domain = '.' . $base_domain;
-		
+
 		// If an existing cookie is not set, we dont need to delete it.
 		if ($value == 'deleted' && empty($_COOKIE[$cookie_name]))
 			return;
-		
+
 		if (headers_sent())
 			error_log('Could not set cookie. Headers already sent.');
 		else
@@ -572,9 +572,9 @@ abstract class OAuth2Client {
 			// Validate the signature.
 			$session_without_sig = $session;
 			unset($session_without_sig['sig']);
-			
+
 			$expected_sig = self::generateSignature($session_without_sig, $this->getVariable('client_secret'));
-			
+
 			if ($session['sig'] != $expected_sig) {
 				error_log('Got invalid session signature in cookie.');
 				$session = NULL;
@@ -603,7 +603,7 @@ abstract class OAuth2Client {
 		}
 		// Prevent multiple slashes to avoid cross site requests via the Form API.
 		$uri = '/' . ltrim($uri, '/');
-		
+
 		return $uri;
 	}
 
@@ -617,7 +617,7 @@ abstract class OAuth2Client {
 		$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://';
 		$current_uri = $protocol . $_SERVER['HTTP_HOST'] . $this->getRequestUri();
 		$parts = parse_url($current_uri);
-		
+
 		$query = '';
 		if (!empty($parts['query'])) {
 			$params = array();
@@ -627,14 +627,14 @@ abstract class OAuth2Client {
 				$query = '?' . http_build_query($params, NULL, '&');
 			}
 		}
-		
+
 		// Use port if non default.
 		$port = '';
 		if (isset($parts['port']) && (($protocol === 'http://' && $parts['port'] !== 80) || ($protocol === 'https://' && $parts['port'] !== 443))) {
 			$port = ':' . $parts['port'];
 		}
-		
-		
+
+
 		// Rebuild.
 		return $protocol . $parts['host'] . $port . $parts['path'] . $query;
 	}
@@ -652,16 +652,16 @@ abstract class OAuth2Client {
 	 */
 	protected function getUri($path = '', $params = array()) {
 		$url = $this->getVariable('services_uri') ? $this->getVariable('services_uri') : $this->getVariable('base_uri');
-		
+
 		if (!empty($path))
 			if (substr($path, 0, 4) == "http")
 				$url = $path;
 			else
 				$url = rtrim($url, '/') . '/' . ltrim($path, '/');
-		
+
 		if (!empty($params))
 			$url .= '?' . http_build_query($params, NULL, '&');
-		
+
 		return $url;
 	}
 
@@ -679,14 +679,14 @@ abstract class OAuth2Client {
 	protected function generateSignature($params, $secret) {
 		// Work with sorted data.
 		ksort($params);
-		
+
 		// Generate the base string.
 		$base_string = '';
 		foreach ( $params as $key => $value ) {
 			$base_string .= $key . '=' . $value;
 		}
 		$base_string .= $secret;
-		
+
 		return md5($base_string);
 	}
 }

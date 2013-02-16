@@ -15,7 +15,7 @@ class Oauth2_Server_Clients {
 		    $table->string('client_secret');
 		    $table->string('redirect_uri');
 		    $table->timestamps();
-		    $table->primary('client_id');	    
+		    $table->primary('client_id');
 		});
 	}
 

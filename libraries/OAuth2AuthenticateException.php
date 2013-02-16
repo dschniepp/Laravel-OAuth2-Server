@@ -11,11 +11,11 @@ namespace OAuth2Server\Libraries;
  * @ingroup oauth2_error
  */
 class OAuth2AuthenticateException extends \OAuth2Server\Libraries\OAuth2ServerException {
-	
+
 	protected $header;
 
 	/**
-	 * 
+	 *
 	 * @param $http_status_code
 	 * HTTP status code message as predefined.
 	 * @param $error
@@ -31,11 +31,11 @@ class OAuth2AuthenticateException extends \OAuth2Server\Libraries\OAuth2ServerEx
 	 */
 	public function __construct($httpCode, $tokenType, $realm, $error, $error_description = NULL, $scope = NULL) {
 		parent::__construct($httpCode, $error, $error_description);
-		
+
 		if ($scope) {
 			$this->errorData['scope'] = $scope;
 		}
-		
+
 		// Build header
 		$this->header = sprintf('WWW-Authenticate: %s realm="%s"', ucwords($tokenType), $realm);
 		foreach ( $this->errorData as $key => $value ) {

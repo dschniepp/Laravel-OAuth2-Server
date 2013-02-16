@@ -3,7 +3,7 @@
 /**
  * Storage engines that support the "Resource Owner Password Credentials"
  * grant type should implement this interface
- * 
+ *
  * @author Dave Rochwerger <catch.dave@gmail.com>
  * @see http://tools.ietf.org/html/draft-ietf-oauth-v2-20#section-4.3
  */

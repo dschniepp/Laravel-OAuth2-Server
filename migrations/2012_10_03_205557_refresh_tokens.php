@@ -14,11 +14,11 @@ class Oauth2_Server_Refresh_Tokens {
 		    $table->string('refresh_token', 40);
 		    $table->string('client_id');
 		    $table->integer('user_id')->unsigned();
-		    $table->integer('expires');		    
+		    $table->integer('expires');
 		    $table->string('scope', 255)->nullable();
 		    $table->timestamps();
-		    $table->primary('refresh_token');	    
-		});	
+		    $table->primary('refresh_token');
+		});
 	}
 
 	/**
