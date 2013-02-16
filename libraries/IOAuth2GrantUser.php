@@ -1,5 +1,7 @@
 <?php
 
+namespace OAuth2Server\Libraries;
+
 /**
  * Storage engines that support the "Resource Owner Password Credentials"
  * grant type should implement this interface

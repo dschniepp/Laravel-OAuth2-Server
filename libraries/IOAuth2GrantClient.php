@@ -1,5 +1,7 @@
 <?php
 
+namespace OAuth2Server\Libraries;
+
 /**
  * Storage engines that support the "Client Credentials"
  * grant type should implement this interface

@@ -1,7 +1,7 @@
 <?php
 
-use \OAuth2Server\Models;
-use \OAuth2Server\Libraries;
+use OAuth2Server\Models;
+use OAuth2Server\Libraries;
 use \Laravel;
 
 class OAuth2StorageLaravel implements OAuth2Server\Libraries\IOAuth2GrantCode, OAuth2Server\Libraries\IOAuth2RefreshTokens {
