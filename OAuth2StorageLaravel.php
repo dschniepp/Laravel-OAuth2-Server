@@ -201,4 +201,16 @@ class OAuth2StorageLaravel implements OAuth2Server\Libraries\IOAuth2GrantCode, O
 		}
 	}
 
+   /**
+    * By default, we do nothing and pass the ball.
+    * Extend this class if you want to implement nice error handling here.
+    *
+    * @param  Exception $e
+    * @return void
+    * @throws Exception
+    */
+   protected function handleException($e) {
+      throw $e;
+   }
+
 }
