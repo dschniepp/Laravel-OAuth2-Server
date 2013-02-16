@@ -2,23 +2,31 @@
 
 class Oauth2_Server_Auth_Codes {
 
+   /**
+    * Create a new migration instance.
+    *
+    * @return void
+    */
+   public function __construct()
+   {
+      Bundle::start('oauth2-server');
+   }
+
 	/**
 	 * Make changes to the database.
 	 *
 	 * @return void
+    * @throws Exception
 	 */
 	public function up()
 	{
-		Schema::create('auth_codes', function($table)
+		Schema::create(Config::get('oauth2-server::bundle.tables.auth_codes', 'auth_codes'), function($table)
 		{
-		    $table->string('code', 40);
-		    $table->string('client_id');
-		    $table->integer('user_id')->unsigned();
-		    $table->string('redirect_uri', 200);		    		    
-		    $table->integer('expires');		    
-		    $table->string('scope', 200)->nullable();
-		    $table->timestamps();
-		    $table->primary('code');	    
+         if ( ! file_exists($f = __DIR__.'/'.Config::get('oauth2-server::bundle.migrations', 'default').'/auth_codes'.EXT))
+         {
+            throw new Exception('Unable to load the migration details for the auth_codes table');
+         }
+         require $f;
 		});
 	}
 
@@ -29,7 +37,7 @@ class Oauth2_Server_Auth_Codes {
 	 */
 	public function down()
 	{
-		Schema::drop('auth_codes');
+		Schema::drop(Config::get('oauth2-server::bundle.tables.auth_codes', 'auth_codes'));
 	}
 
 }

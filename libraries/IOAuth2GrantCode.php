@@ -5,15 +5,15 @@ namespace OAuth2Server\Libraries;
 /**
  * Storage engines that support the "Authorization Code"
  * grant type should implement this interface
- * 
+ *
  * @author Dave Rochwerger <catch.dave@gmail.com>
  * @see http://tools.ietf.org/html/draft-ietf-oauth-v2-20#section-4.1
  */
 interface IOAuth2GrantCode extends \OAuth2Server\Libraries\IOAuth2Storage {
-	
+
 	/**
-	 * The Authorization Code grant type supports a response type of "code". 
-	 * 
+	 * The Authorization Code grant type supports a response type of "code".
+	 *
 	 * @var string
 	 * @see http://tools.ietf.org/html/draft-ietf-oauth-v2-20#section-1.4.1
 	 * @see http://tools.ietf.org/html/draft-ietf-oauth-v2-20#section-4.2

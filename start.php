@@ -6,9 +6,12 @@
  * @version 1.0 - 2012-10-06
  */
 
-Autoloader::map(array(
-		'OAuth2StorageLaravel' => __DIR__ . '/OAuth2StorageLaravel.php',
-));
+$mappings = array('OAuth2StorageLaravel' => __DIR__.'/OAuth2StorageLaravel.php');
+foreach(Config::get('oauth2-server::bundle.classes') as $mapping => $file)
+{
+   $mappings[$mapping] = __DIR__.'/'.ltrim($file, '/');
+}
+Autoloader::map($mappings);
 
 Autoloader::namespaces(array(
     	'OAuth2Server\Models' => __DIR__.'/models',

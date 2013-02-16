@@ -4,14 +4,14 @@ namespace OAuth2Server\Libraries;
 
 /**
  * All storage engines need to implement this interface in order to use OAuth2 server
- * 
+ *
  * @author David Rochwerger <catch.dave@gmail.com>
  */
 interface IOAuth2Storage {
 
 	/**
 	 * Make sure that the client credentials is valid.
-	 * 
+	 *
 	 * @param $client_id
 	 * Client identifier to be check with.
 	 * @param $client_secret

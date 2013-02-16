@@ -10,7 +10,7 @@ namespace OAuth2Server\Libraries;
  * @ingroup oauth2_error
  */
 class OAuth2RedirectException extends \OAuth2Server\Libraries\OAuth2ServerException {
-	
+
 	protected $redirectUri;
 
 	/**
@@ -33,12 +33,12 @@ class OAuth2RedirectException extends \OAuth2Server\Libraries\OAuth2ServerExcept
 	 */
 	public function __construct($redirect_uri, $error, $error_description = NULL, $state = NULL) {
 		parent::__construct(OAuth2::HTTP_FOUND, $error, $error_description);
-		
+
 		$this->redirectUri = $redirect_uri;
 		if ($state) {
 			$this->errorData['state'] = $state;
 		}
-	
+
 	}
 
 	/**
@@ -67,7 +67,7 @@ class OAuth2RedirectException extends \OAuth2Server\Libraries\OAuth2ServerExcept
 	 */
 	protected function buildUri($uri, $params) {
 		$parse_url = parse_url($uri);
-		
+
 		// Add our params to the parsed uri
 		foreach ( $params as $k => $v ) {
 			if (isset($parse_url[$k]))
@@ -75,7 +75,7 @@ class OAuth2RedirectException extends \OAuth2Server\Libraries\OAuth2ServerExcept
 			else
 				$parse_url[$k] = http_build_query($v);
 		}
-		
+
 		// Put humpty dumpty back together
 		return ((isset($parse_url["scheme"])) ? $parse_url["scheme"] . "://" : "") . ((isset($parse_url["user"])) ? $parse_url["user"] . ((isset($parse_url["pass"])) ? ":" . $parse_url["pass"] : "") . "@" : "") . ((isset($parse_url["host"])) ? $parse_url["host"] : "") . ((isset($parse_url["port"])) ? ":" . $parse_url["port"] : "") . ((isset($parse_url["path"])) ? $parse_url["path"] : "") . ((isset($parse_url["query"])) ? "?" . $parse_url["query"] : "") . ((isset($parse_url["fragment"])) ? "#" . $parse_url["fragment"] : "");
 	}

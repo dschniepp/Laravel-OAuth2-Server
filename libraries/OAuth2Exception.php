@@ -1,5 +1,7 @@
 <?php
 
+namespace OAuth2Server\Libraries;
+
 /**
  * OAuth2.0 draft v10 exception handling.
  *
@@ -9,7 +11,7 @@
  * @sa <a href="https://github.com/facebook/php-sdk">Facebook PHP SDK</a>.
  */
 class OAuth2Exception extends Exception {
-	
+
 	/**
 	 * The result from the API server that represents the exception information.
 	 */
@@ -23,9 +25,9 @@ class OAuth2Exception extends Exception {
 	 */
 	public function __construct($result) {
 		$this->result = $result;
-		
+
 		$code = isset($result['code']) ? $result['code'] : 0;
-		
+
 		if (isset($result['error'])) {
 			// OAuth 2.0 Draft 10 style
 			$message = $result['error'];
@@ -35,7 +37,7 @@ class OAuth2Exception extends Exception {
 		} else {
 			$message = 'Unknown Error. Check getResult()';
 		}
-		
+
 		parent::__construct($message, $code);
 	}
 

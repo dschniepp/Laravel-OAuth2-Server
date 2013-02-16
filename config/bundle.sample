@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * OAuth2-Server bundle configuration file.
+ * Rename it to 'database.php' and adapt it if you need to customize the
+ * way things are handled in database.
+ */
+return array(
+
+   /*
+   |--------------------------------------------------------------------------
+   | Table names
+   |--------------------------------------------------------------------------
+   |
+   | Use the entries below to customize the names of the tables used by the
+   | bundle in database.
+   |
+   */
+
+   'tables' => array(
+      'auth_codes'     => 'auth_codes',
+      'clients'        => 'clients',
+      'access_tokens'  => 'access_tokens',
+      'refresh_tokens' => 'refresh_tokens',
+   ),
+
+   /*
+   |--------------------------------------------------------------------------
+   | Migrations
+   |--------------------------------------------------------------------------
+   |
+   | This bundle includes out-of-the-box migrations suitable for most cases.
+   | If you need to customize them (e.g. add name or contact info to clients,
+   | fine-tune columns lengths/types or add foreign keys constraints if your
+   | DB engine supports it), just copy the content of the migrations/default
+   | directory into a new migrations subdirectory and update this parameter.
+   |
+   */
+
+   'migrations' => 'default',
+
+   /*
+   |--------------------------------------------------------------------------
+   | Custom classes
+   |--------------------------------------------------------------------------
+   |
+   | If you need to extend the storage or any library class, add those here so
+   | they can be registered in autoloader when the bundle starts. Paths are
+   | relative to the bundle root.
+   |
+   */
+
+   'classes' => array(
+      // 'OAuth2StorageCustom' => '/Oauth2StorageCustom.php',
+   )
+
+);
