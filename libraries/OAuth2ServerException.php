@@ -8,7 +8,7 @@ namespace OAuth2Server\Libraries;
  *
  */
 class OAuth2ServerException extends \Exception {
-	
+
 	protected $httpCode;
 	protected $errorData = array();
 
@@ -24,9 +24,9 @@ class OAuth2ServerException extends \Exception {
 	 */
 	public function __construct($http_status_code, $error, $error_description = NULL) {
 		parent::__construct($error);
-		
+
 		$this->httpCode = $http_status_code;
-		
+
 		$this->errorData['error'] = $error;
 		if ($error_description) {
 			$this->errorData['error_description'] = $error_description;
@@ -34,14 +34,14 @@ class OAuth2ServerException extends \Exception {
 	}
 
 	/**
-	 * @return string 
+	 * @return string
 	 */
 	public function getDescription() {
 		return isset($this->errorData['error_description']) ? $this->errorData['error_description'] : null;
 	}
 
 	/**
-	 * @return string 
+	 * @return string
 	 */
 	public function getHttpCode() {
 		return $this->httpCode;
