@@ -14,11 +14,11 @@ class Oauth2_Server_Auth_Codes {
 		    $table->string('code', 40);
 		    $table->string('client_id');
 		    $table->integer('user_id')->unsigned();
-		    $table->string('redirect_uri', 200);		    		    
-		    $table->integer('expires');		    
+		    $table->string('redirect_uri', 200);
+		    $table->integer('expires');
 		    $table->string('scope', 200)->nullable();
 		    $table->timestamps();
-		    $table->primary('code');	    
+		    $table->primary('code');
 		});
 	}
 

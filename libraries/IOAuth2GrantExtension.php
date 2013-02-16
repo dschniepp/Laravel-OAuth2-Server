@@ -1,9 +1,11 @@
 <?php
 
+namespace OAuth2Server\Libraries;
+
 /**
  * Storage engines that support the "Extensible"
  * grant types should implement this interface
- * 
+ *
  * @author Dave Rochwerger <catch.dave@gmail.com>
  * @see http://tools.ietf.org/html/draft-ietf-oauth-v2-20#section-4.5
  */
@@ -11,7 +13,7 @@ interface IOAuth2GrantExtension extends IOAuth2Storage {
 
 	/**
 	 * Check any extended grant types.
-	 * 
+	 *
 	 * @param string $uri
 	 * URI of the grant type definition
 	 * @param array $inputData
@@ -27,7 +29,7 @@ interface IOAuth2GrantExtension extends IOAuth2Storage {
 	 * 'scope' => <stored scope values (space-separated string)>,
 	 * );
 	 * @endcode
-	 * 
+	 *
 	 * @see http://tools.ietf.org/html/draft-ietf-oauth-v2-20#section-1.4.5
 	 * @see http://tools.ietf.org/html/draft-ietf-oauth-v2-20#section-4.2
 	 */

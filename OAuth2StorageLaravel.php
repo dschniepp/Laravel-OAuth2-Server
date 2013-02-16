@@ -1,48 +1,28 @@
 <?php
 
-use \OAuth2Server\Models;
-use \OAuth2Server\Libraries;
+use OAuth2Server\Models;
+use OAuth2Server\Libraries;
 use \Laravel;
 
-/*require 'libraries/OAuth2.php';
-require 'libraries/IOAuth2Storage.php';
-require 'libraries/IOAuth2GrantCode.php';
-require 'libraries/IOAuth2RefreshTokens.php';*/
-
-/**
- * PDO storage engine for the OAuth2 Library.
- * 
- * IMPORTANT: This is provided as an example only. In production you may implement
- * a client-specific salt in the OAuth2StoragePDO::hash() and possibly other goodies.
- * 
- *** The point is, use this as an EXAMPLE ONLY. ***
- */
 class OAuth2StorageLaravel implements OAuth2Server\Libraries\IOAuth2GrantCode, OAuth2Server\Libraries\IOAuth2RefreshTokens {
-
 
 	/**
 	 * Little helper function to add a new client to the database.
 	 *
-	 * Do NOT use this in production! This sample code stores the secret
-	 * in plaintext!
-	 *
-	 * @param $client_id
-	 * Client identifier to be stored.
-	 * @param $client_secret
-	 * Client secret to be stored.
-	 * @param $redirect_uri
-	 * Redirect URI to be stored.
+	 * @param $client_id     Client identifier to be stored.
+	 * @param $client_secret Client secret to be stored.
+	 * @param $redirect_uri  Redirect URI to be stored.
 	 */
 	public function addClient($client_id, $client_secret, $redirect_uri) {
 		try {
 			$client_secret = \Laravel\Hash::make($client_secret . $client_id);
-			
+
 			$client = new \OAuth2Server\Models\Client();
 			$client->client_id 		= $client_id;
 			$client->client_secret 	= $client_secret;
 			$client->redirect_uri 	= $redirect_uri;
 			$client->save();
-					
+
 		} catch (Exception $e) {
 			$this->handleException($e);
 		}
@@ -55,11 +35,11 @@ class OAuth2StorageLaravel implements OAuth2Server\Libraries\IOAuth2GrantCode, O
 	public function checkClientCredentials($client_id, $client_secret = NULL) {
 		try {
 			$client = \OAuth2Server\Models\Client::where_client_id($client_id)->first();
-			
+
 			if ($client_secret === NULL) {
 				return $client !== FALSE;
 			}
-			
+
 			return \Laravel\Hash::check($client_secret . $client_id, $client->client_secret);
 		} catch (PDOException $e) {
 			$this->handleException($e);
@@ -67,20 +47,20 @@ class OAuth2StorageLaravel implements OAuth2Server\Libraries\IOAuth2GrantCode, O
 	}
 
 	/**
-	 * Implements IOAuth2Storage::getRedirectUri().
+	 * Implements IOAuth2Storage::getClientDetails().
 	 */
 	public function getClientDetails($client_id) {
 
 		$client = \OAuth2Server\Models\Client::where_client_id($client_id)->first();
-		
+
 		if (is_null($client))
 		{
-			return FALSE;			
+			return FALSE;
 		}
 		else
 		{
 			unset($client->attributes['client_secret']);
-			return $client->attributes;			
+			return $client->attributes;
 		}
 	}
 
@@ -124,7 +104,7 @@ class OAuth2StorageLaravel implements OAuth2Server\Libraries\IOAuth2GrantCode, O
 	 */
 	public function getAuthCode($oauth_code) {
 		$code = \OAuth2Server\Models\AuthCode::where_code($oauth_code)->first();
-		
+
 		if(is_null($code))
 			return NULL;
 		else
@@ -136,18 +116,18 @@ class OAuth2StorageLaravel implements OAuth2Server\Libraries\IOAuth2GrantCode, O
 	 */
 	public function setAuthCode($oauth_code, $client_id, $user_id, $redirect_uri, $expires, $scope = NULL) {
 		try {
-		
+
 			$code =  new \OAuth2Server\Models\AuthCode();
-			
+
 			$code->code 		= $oauth_code;
 			$code->client_id 	= $client_id;
 			$code->user_id 		= $user_id;
 			$code->redirect_uri = $redirect_uri;
 			$code->expires 		= $expires;
 			$code->scope 		= $scope;
-			
+
 			$code->save();
-			
+
 		} catch (Exception $e) {
 			$this->handleException($e);
 		}
@@ -162,7 +142,7 @@ class OAuth2StorageLaravel implements OAuth2Server\Libraries\IOAuth2GrantCode, O
 
 	/**
 	 * Creates a refresh or access token
-	 * 
+	 *
 	 * @param string $token - Access or refresh token id
 	 * @param string $client_id
 	 * @param mixed $user_id
@@ -172,7 +152,7 @@ class OAuth2StorageLaravel implements OAuth2Server\Libraries\IOAuth2GrantCode, O
 	 */
 	protected function setToken($oauth_token, $client_id, $user_id, $expires, $scope, $isRefresh = TRUE) {
 		try {
-			
+
 			if($isRefresh)
 			{
 				$token = new \OAuth2Server\Models\RefreshToken();
@@ -181,14 +161,14 @@ class OAuth2StorageLaravel implements OAuth2Server\Libraries\IOAuth2GrantCode, O
 			else
 			{
 				$token = new \OAuth2Server\Models\AccessToken();
-				$token->oauth_token = $oauth_token;			
+				$token->oauth_token = $oauth_token;
 			}
-			
+
 			$token->client_id 	= $client_id;
 			$token->user_id 	= $user_id;
 			$token->expires 	= $expires;
 			$token->scope 		= $scope;
-			
+
 			$token->save();
 		} catch (Exception $e) {
 			$this->handleException($e);
@@ -197,7 +177,7 @@ class OAuth2StorageLaravel implements OAuth2Server\Libraries\IOAuth2GrantCode, O
 
 	/**
 	 * Retrieves an access or refresh token.
-	 * 
+	 *
 	 * @param string $token
 	 * @param bool $refresh
 	 */
@@ -208,9 +188,9 @@ class OAuth2StorageLaravel implements OAuth2Server\Libraries\IOAuth2GrantCode, O
 		}
 		else
 		{
-			$token = \OAuth2Server\Models\AccessToken::where_oauth_token($oauth_token)->first();			
+			$token = \OAuth2Server\Models\AccessToken::where_oauth_token($oauth_token)->first();
 		}
-		
+
 		if(is_null($token))
 		{
 			return NULL;
@@ -220,5 +200,17 @@ class OAuth2StorageLaravel implements OAuth2Server\Libraries\IOAuth2GrantCode, O
 			return $token->attributes;
 		}
 	}
-	
+
+   /**
+    * By default, we do nothing and pass the ball.
+    * Extend this class if you want to implement nice error handling here.
+    *
+    * @param  Exception $e
+    * @return void
+    * @throws Exception
+    */
+   protected function handleException($e) {
+      throw $e;
+   }
+
 }
