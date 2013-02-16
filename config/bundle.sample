@@ -2,7 +2,7 @@
 
 /**
  * OAuth2-Server bundle configuration file.
- * Rename it to 'database.php' and adapt it if you need to customize the
+ * Rename it to 'bundle.php' and adapt it if you need to customize the
  * way things are handled in database.
  */
 return array(
