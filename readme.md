@@ -2,7 +2,7 @@
 
 ## Installation
 
-### Aritsan 1
+### Artisan 1
 
 	php artisan bundle:install oauth2-server
 
@@ -12,7 +12,7 @@ Add the following to your **application/bundles.php** file:
 
 	'oauth2-server' => array('auto' => true),
 
-### Aritsan 2
+### Artisan 2
 
 	php artisan migrate oauth2-server
 

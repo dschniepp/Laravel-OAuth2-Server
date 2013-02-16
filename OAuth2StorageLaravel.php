@@ -4,34 +4,14 @@ use \OAuth2Server\Models;
 use \OAuth2Server\Libraries;
 use \Laravel;
 
-/*require 'libraries/OAuth2.php';
-require 'libraries/IOAuth2Storage.php';
-require 'libraries/IOAuth2GrantCode.php';
-require 'libraries/IOAuth2RefreshTokens.php';*/
-
-/**
- * PDO storage engine for the OAuth2 Library.
- *
- * IMPORTANT: This is provided as an example only. In production you may implement
- * a client-specific salt in the OAuth2StoragePDO::hash() and possibly other goodies.
- *
- *** The point is, use this as an EXAMPLE ONLY. ***
- */
 class OAuth2StorageLaravel implements OAuth2Server\Libraries\IOAuth2GrantCode, OAuth2Server\Libraries\IOAuth2RefreshTokens {
-
 
 	/**
 	 * Little helper function to add a new client to the database.
 	 *
-	 * Do NOT use this in production! This sample code stores the secret
-	 * in plaintext!
-	 *
-	 * @param $client_id
-	 * Client identifier to be stored.
-	 * @param $client_secret
-	 * Client secret to be stored.
-	 * @param $redirect_uri
-	 * Redirect URI to be stored.
+	 * @param $client_id     Client identifier to be stored.
+	 * @param $client_secret Client secret to be stored.
+	 * @param $redirect_uri  Redirect URI to be stored.
 	 */
 	public function addClient($client_id, $client_secret, $redirect_uri) {
 		try {
@@ -67,7 +47,7 @@ class OAuth2StorageLaravel implements OAuth2Server\Libraries\IOAuth2GrantCode, O
 	}
 
 	/**
-	 * Implements IOAuth2Storage::getRedirectUri().
+	 * Implements IOAuth2Storage::getClientDetails().
 	 */
 	public function getClientDetails($client_id) {
 
