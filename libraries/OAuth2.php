@@ -741,7 +741,7 @@ class OAuth2 {
 
 		// Send response
 		$this->sendJsonHeaders();
-		echo json_encode($token);
+		die(json_encode($token));
 	}
 
 	/**
