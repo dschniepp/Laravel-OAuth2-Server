@@ -637,7 +637,7 @@ class OAuth2 {
 
 				// Check the code exists
 				if ($stored === NULL || $client[0] != $stored["client_id"]) {
-					throw new OAuth2ServerException(self::HTTP_BAD_REQUEST, self::ERROR_INVALID_GRANT, "Refresh token doesn't exist or is invalid for the client");
+					throw new OAuth2ServerException(self::HTTP_BAD_REQUEST, self::ERROR_INVALID_GRANT, "Authorization code doesn't exist or is invalid for the client");
 				}
 
 				// Validate the redirect URI. If a redirect URI has been provided on input, it must be validated
