@@ -14,6 +14,12 @@ Add the following to your **application/bundles.php** file:
 
 ### Artisan 2
 
+If you need to customize the default database structure, rename the **config/bundle.sample** file
+to **config/bundle.php** and adapt it. Follow instructions inside the configuration file on how
+to adapt migrations.
+
+If you don't have any special needs, just run the migration task out of the box.
+
 	php artisan migrate oauth2-server
 
 ### Add a client
@@ -141,6 +147,13 @@ application/views/oauth.authorize.php
 		</div>
 	</body>
 	</html>
+
+
+### Extending classes
+
+If you extend bundle classes (for example to customize the storage class), add them to the **classes**
+configuration array so they can be registered automatically by the bundle.
+
 
 ### Final Tests
 

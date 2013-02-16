@@ -1,6 +1,6 @@
 <?php
 
-class Oauth2_Server_Access_Tokens {
+class Oauth2_Server_Clients {
 
    /**
     * Create a new migration instance.
@@ -20,11 +20,11 @@ class Oauth2_Server_Access_Tokens {
     */
    public function up()
    {
-      Schema::create(Config::get('oauth2-server::bundle.tables.access_tokens', 'access_tokens'), function($table)
+      Schema::create(Config::get('oauth2-server::bundle.tables.clients', 'clients'), function($table)
       {
-         if ( ! file_exists($f = __DIR__.'/'.Config::get('oauth2-server::bundle.migrations', 'default').'/access_tokens'.EXT))
+         if ( ! file_exists($f = __DIR__.'/'.Config::get('oauth2-server::bundle.migrations', 'default').'/clients'.EXT))
          {
-            throw new Exception('Unable to load the migration details for the access_tokens table');
+            throw new Exception('Unable to load the migration details for the clients table');
          }
          require $f;
       });
@@ -37,7 +37,7 @@ class Oauth2_Server_Access_Tokens {
     */
    public function down()
    {
-      Schema::drop(Config::get('oauth2-server::bundle.tables.access_tokens', 'access_tokens'));
+      Schema::drop(Config::get('oauth2-server::bundle.tables.clients', 'clients'));
    }
 
 }
