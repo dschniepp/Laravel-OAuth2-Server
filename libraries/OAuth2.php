@@ -93,12 +93,11 @@ class OAuth2 {
 	 * Regex to filter out the client identifier (described in Section 2 of IETF draft).
 	 *
 	 * IETF draft does not prescribe a format for these, however I've arbitrarily
-	 * chosen alphanumeric strings with hyphens and underscores, 3-32 characters
-	 * long.
+	 * chosen alphanumeric strings with hyphens and underscores and a minimal length of 3
 	 *
 	 * Feel free to change.
 	 */
-	const CLIENT_ID_REGEXP = '/^[a-z0-9-_]{3,32}$/i';
+	const CLIENT_ID_REGEXP = '/^[a-z0-9-_]{3,}$/i';
 
 	/**
 	 * @defgroup oauth2_section_5 Accessing a Protected Resource
