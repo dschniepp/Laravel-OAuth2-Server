@@ -7,13 +7,12 @@
  */
 
 $mappings = array('OAuth2StorageLaravel' => __DIR__.'/OAuth2StorageLaravel.php');
-if(Config::get('oauth2-server::bundle.classes'))
+
+foreach(Config::get('oauth2-server::bundle.classes') as $mapping => $file)
 {
-   foreach(Config::get('oauth2-server::bundle.classes') as $mapping => $file)
-	{
-	   $mappings[$mapping] = __DIR__.'/'.ltrim($file, '/');
-	}
+   $mappings[$mapping] = __DIR__.'/'.ltrim($file, '/');
 }
+
 Autoloader::map($mappings);
 
 Autoloader::namespaces(array(
