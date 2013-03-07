@@ -571,6 +571,8 @@ class OAuth2 {
 	 *
 	 * @param $inputData - The draft specifies that the parameters should be
 	 * retrieved from POST, but you can override to whatever method you like.
+    * @param $authHeaders
+    * @param $sendHttpResponse At True, token will be displayed in JSON and execution stopped. At False, token will be returned
 	 * @throws OAuth2ServerException
 	 *
 	 * @see http://tools.ietf.org/html/draft-ietf-oauth-v2-20#section-4
@@ -579,7 +581,7 @@ class OAuth2 {
 	 *
 	 * @ingroup oauth2_section_4
 	 */
-	public function grantAccessToken(array $inputData = NULL, array $authHeaders = NULL) {
+	public function grantAccessToken(array $inputData = NULL, array $authHeaders = NULL, $sendHttpResponse = TRUE) {
 		$filters = array(
 			"grant_type" => array("filter" => FILTER_VALIDATE_REGEXP, "options" => array("regexp" => self::GRANT_TYPE_REGEXP), "flags" => FILTER_REQUIRE_SCALAR),
 			"scope" => array("flags" => FILTER_REQUIRE_SCALAR),
@@ -739,8 +741,13 @@ class OAuth2 {
 		$token = $this->createAccessToken($client[0], $user_id, $stored['scope']);
 
 		// Send response
-		$this->sendJsonHeaders();
-		die(json_encode($token));
+      if ($sendHttpResponse) {
+   		$this->sendJsonHeaders();
+   		die(json_encode($token));
+      }
+      else {
+         return $token;
+      }
 	}
 
 	/**
