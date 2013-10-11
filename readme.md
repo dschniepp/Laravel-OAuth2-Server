@@ -1,3 +1,7 @@
+For Laravel 4 Composer Package go to https://github.com/lucadegasperi/oauth2-server-laravel
+
+-----
+
 # Laravel OAuth2 Server
 
 ## Installation
