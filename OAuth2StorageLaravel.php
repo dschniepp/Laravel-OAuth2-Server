@@ -38,7 +38,9 @@ class OAuth2StorageLaravel implements OAuth2Server\Libraries\IOAuth2GrantCode, O
 
 			if ($client_secret === NULL) {
 				return $client !== FALSE;
-			}
+			} elseif($client === NULL) {
+            return FALSE;
+         }
 
 			return \Laravel\Hash::check($client_secret . $client_id, $client->client_secret);
 		} catch (PDOException $e) {
